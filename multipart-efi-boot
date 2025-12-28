@@ -37,7 +37,7 @@
 # Feel free to send PRs with commits or open issues with instructions to add support for other distros
 
 
-script_version=1.0
+script_version=1.1
 
 efipart_file="/etc/kernel/efiparts"
 
@@ -89,6 +89,10 @@ EOF
 chmod +x /etc/kernel/postinst.d/za-systemd-boot-multipartition
 chmod +x /etc/kernel/postinst.d/zz-systemd-boot-multipartition-post
 
+#symlink the kernel install script to the initramfs hooks folder so
+#it’s run also when updating initramfs
+ln -s /etc/kernel/postinst.d/za-systemd-boot-multipartition /etc/initramfs/post-update.d/sa-systemd-boot-multipartition
+
 }
 
 write_postrm(){
@@ -139,6 +143,7 @@ rm -f /etc/kernel/postrm.d/zz-systemd-boot-multipartition-post
 rm -f /etc/kernel/postrm.d/za-systemd-boot-multipartition
 rm -f /etc/kernel/postinst.d/zz-systemd-boot-multipartition-post
 rm -f /etc/kernel/postinst.d/za-systemd-boot-multipartition
+rm -f /etc/initramfs/post-update.d/sa-systemd-boot-multipartition
 
 }
 
